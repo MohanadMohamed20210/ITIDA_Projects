@@ -1,0 +1,14 @@
+-rootPath
+/home/mohanad/testqml2/testqml2
+-cmake-output
+-output-file
+/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/.qt/qml_imports/apptestqml2_build.cmake
+-importPath
+/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/testqml2
+-importPath
+/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug
+-importPath
+/home/mohanad/Qt/6.8.2/gcc_64/qml
+-qrcFiles
+/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/.qt/rcc/qmake_testqml2.qrc
+/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/.qt/rcc/apptestqml2_raw_qml_0.qrc

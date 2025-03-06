@@ -1,0 +1,29 @@
+{
+	"BUILD_DIR" : "/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/apptestqml2_autogen",
+	"CMAKE_BINARY_DIR" : "/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/mohanad/testqml2/testqml2",
+	"CMAKE_SOURCE_DIR" : "/home/mohanad/testqml2/testqml2",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/apptestqml2_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/mohanad/testqml2/testqml2/Images/bg2.jpg",
+		"/home/mohanad/testqml2/testqml2/Images/final.jpg",
+		"/home/mohanad/testqml2/testqml2/Images/serial.jpg",
+		"/home/mohanad/testqml2/testqml2/Images/splash.png",
+		"/home/mohanad/testqml2/testqml2/Images/audio.wav"
+	],
+	"LOCK_FILE" : "/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/apptestqml2_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/home/mohanad/Qt/6.8.2/gcc_64/libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/apptestqml2_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/mohanad/testqml2/testqml2/resources.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}

@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_apptestqml2_FILE /home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/apptestqml2)
+set(__QT_DEPLOY_TARGET_apptestqml2_TYPE EXECUTABLE)

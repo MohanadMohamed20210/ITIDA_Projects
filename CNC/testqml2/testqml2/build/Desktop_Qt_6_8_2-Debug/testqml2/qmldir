@@ -1,0 +1,9 @@
+module testqml2
+typeinfo apptestqml2.qmltypes
+prefer :/qt/qml/testqml2/
+Main 1.0 Main.qml
+HomePage 1.0 HomePage.qml
+ParameterSettingPage 1.0 ParameterSettingPage.qml
+GeneratingPage 1.0 GeneratingPage.qml
+SerialMonitor 1.0 SerialMonitor.qml
+

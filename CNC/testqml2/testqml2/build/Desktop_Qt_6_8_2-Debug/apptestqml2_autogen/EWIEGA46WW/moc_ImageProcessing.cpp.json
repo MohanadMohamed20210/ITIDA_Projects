@@ -1,0 +1,58 @@
+{
+    "classes": [
+        {
+            "className": "ImageProcessing",
+            "lineNumber": 17,
+            "object": true,
+            "qualifiedClassName": "ImageProcessing",
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "filePath",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "canny1",
+                            "type": "int"
+                        },
+                        {
+                            "name": "canny2",
+                            "type": "int"
+                        },
+                        {
+                            "name": "contourEpsilon",
+                            "type": "double"
+                        },
+                        {
+                            "name": "workspaceWidth",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "workspaceHeight",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 0,
+                    "name": "getData",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 1,
+                    "name": "processImage",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "ImageProcessing.h",
+    "outputRevision": 68
+}

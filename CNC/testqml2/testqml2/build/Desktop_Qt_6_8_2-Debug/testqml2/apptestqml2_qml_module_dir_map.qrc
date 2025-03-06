@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/qt/qml/testqml2">/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/testqml2</file>
+
+  </qresource>
+</RCC>
