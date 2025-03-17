@@ -1,0 +1,88 @@
+{
+    "classes": [
+        {
+            "className": "Serialization",
+            "lineNumber": 12,
+            "methods": [
+                {
+                    "access": "public",
+                    "index": 4,
+                    "name": "StartProcess",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "command",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 5,
+                    "name": "sendCommand",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "monitor",
+                    "notify": "monitorUpdated",
+                    "read": "getMonitor",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "Serialization",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "name": "monitorUpdated",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "serialportid",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 1,
+                    "name": "getSerialPort",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 2,
+                    "name": "getMonitor",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "index": 3,
+                    "name": "GetValue",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "Serialization.h",
+    "outputRevision": 68
+}

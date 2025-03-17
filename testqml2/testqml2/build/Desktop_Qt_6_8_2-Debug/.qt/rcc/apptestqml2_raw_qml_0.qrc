@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="/qt/qml/testqml2/">
+    <file alias="Main.qml">/home/mohanad/testqml2/testqml2/Main.qml</file>
+    <file alias="HomePage.qml">/home/mohanad/testqml2/testqml2/HomePage.qml</file>
+    <file alias="ParameterSettingPage.qml">/home/mohanad/testqml2/testqml2/ParameterSettingPage.qml</file>
+    <file alias="GeneratingPage.qml">/home/mohanad/testqml2/testqml2/GeneratingPage.qml</file>
+    <file alias="SerialMonitor.qml">/home/mohanad/testqml2/testqml2/SerialMonitor.qml</file>
+    <file alias="AdjustHomePosition.qml">/home/mohanad/testqml2/testqml2/AdjustHomePosition.qml</file>
+    <file alias="resources.qrc">/home/mohanad/testqml2/testqml2/resources.qrc</file>
+  </qresource>
+</RCC>
+

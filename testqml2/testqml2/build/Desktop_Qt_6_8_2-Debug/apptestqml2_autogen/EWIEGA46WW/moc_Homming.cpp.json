@@ -1,0 +1,46 @@
+{
+    "classes": [
+        {
+            "className": "Homming",
+            "lineNumber": 10,
+            "object": true,
+            "qualifiedClassName": "Homming",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "command",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 0,
+                    "name": "commandSent",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "command",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 1,
+                    "name": "sendCommand",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "Homming.h",
+    "outputRevision": 68
+}
