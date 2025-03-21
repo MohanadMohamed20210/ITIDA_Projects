@@ -1,9 +1,0 @@
---resource
-/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/.qt/rcc/qmake_testqml2.qrc
---resource
-/home/mohanad/testqml2/testqml2/build/Desktop_Qt_6_8_2-Debug/.qt/rcc/apptestqml2_raw_qml_0.qrc
-/qt/qml/testqml2/Main.qml
-/qt/qml/testqml2/HomePage.qml
-/qt/qml/testqml2/ParameterSettingPage.qml
-/qt/qml/testqml2/GeneratingPage.qml
-/qt/qml/testqml2/SerialMonitor.qml

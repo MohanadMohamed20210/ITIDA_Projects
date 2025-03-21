@@ -1,0 +1,245 @@
+#include "Gcode.h"
+
+extern DataHandler dataHandler;
+
+Gcode::Gcode(QObject *parent)
+    : QObject{parent}
+{
+    connect(&dataHandler, &DataHandler::sendCNC_Data, this, &Gcode::getCNC_Data);
+}
+
+void Gcode::invokeGeneration()
+{
+    QString svgOutputPath = "file.svg";
+    QString gcodeOutputPath = "file.gcode";
+    if(filetype == "Image")
+        generateGCodeSVG(svgOutputPath, gcodeOutputPath);
+    else if(filetype == "Gerber")
+        generateGCodeWithGerber(gcodeOutputPath);
+}
+
+void Gcode::getCNC_Data(QString workspaceWidth, QString workspaceHeight,
+                        int spindleSpeed, int feedRate,
+                         double cutDepth,QString filetype)
+{
+    this->workspaceWidth = workspaceWidth;
+    this->workspaceHeight = workspaceHeight;
+    this->spindleSpeed = spindleSpeed;
+    this->feedRate = feedRate;
+    this->cutDepth = cutDepth;
+    this->filetype = filetype;
+}
+
+void Gcode::generateGCodeWithGerber(const QString &gcodePath)
+{
+    qDebug() << "Generating G-code for milling only...";
+
+    QProcess process;
+    QString program = "pcb2gcode";
+    QStringList arguments;
+
+    QString frontGerber = "thermal.gbr";
+
+    arguments << "--metric"
+              << "--metricoutput"
+              << "--zchange=" + QString::number(-cutDepth)
+              << "--front" << frontGerber
+              << "--zsafe=" + QString::number(cutDepth)
+              << "--zwork=" + QString::number(-cutDepth)
+              << "--mill-feed=" + QString::number(feedRate)
+              << "--mill-speed=" + QString::number(spindleSpeed)
+              << "--mill-diameters=0.8";
+
+    qDebug() << "Running command: " << program << arguments.join(" ");
+
+    process.start(program, arguments);
+
+    if (!process.waitForFinished(30000)) {
+        qDebug() << "pcb2gcode process did not finish in time.";
+        return;
+    }
+
+    QByteArray stdOutput = process.readAllStandardOutput();
+    QByteArray stdError = process.readAllStandardError();
+
+    qDebug() << "pcb2gcode standard output:" << stdOutput;
+    qDebug() << "pcb2gcode standard error:" << stdError;
+
+    if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
+        qDebug() << "pcb2gcode encountered an error.";
+        return;
+    }
+
+    qDebug() << "G-code for milling successfully generated....";
+
+    QFile resultFile("front.ngc");
+    if (resultFile.exists()) {
+        if (QFile::remove(gcodePath))
+        {
+            qDebug() << "Removed existing file at: " << gcodePath;
+        }
+        if (resultFile.rename(gcodePath))
+        {
+            qDebug() << "G-code file successfully renamed to: " << gcodePath;
+            cleanGCodeFileGerber("file.gcode");
+        }
+        else
+        {
+            qDebug() << "Failed to rename G-code file to: " << gcodePath;
+        }
+    }
+    else
+    {
+        qDebug() << "Error: front.ngc not found!";
+    }
+}
+
+void Gcode::cleanGCodeFileGerber(const QString &gcodePath)
+{
+    qDebug() << "Cleaning and validating G-code file: " << gcodePath;
+
+    QFile inputFile(gcodePath);
+    QFile outputFile(gcodePath + ".tmp");
+
+    if (!inputFile.open(QIODevice::ReadOnly) || !outputFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    {
+        qDebug() << "Failed to open G-code files!";
+        return;
+    }
+
+    QTextStream in(&inputFile);
+    QTextStream out(&outputFile);
+
+    while (!in.atEnd())
+    {
+        QString line = in.readLine().trimmed();
+
+        // Remove anything inside parentheses (comments)
+        int start = line.indexOf('(');
+        int end = line.indexOf(')');
+        if (start != -1 && end != -1 && end > start)
+        {
+            line = line.left(start).trimmed();
+        }
+
+        // Remove anything after ';' (inline comments)
+        int semicolonIndex = line.indexOf(';');
+        if (semicolonIndex != -1)
+        {
+            line = line.left(semicolonIndex).trimmed();
+        }
+
+        // Remove unsupported commands (G64, M6)
+        if (line.startsWith("G64"))
+        {
+            if (line.contains("P"))
+            {
+                // Remove G64 with parameters (unsupported in GRBL)
+                qDebug() << "Removing unsupported command: " << line;
+                continue;
+            }
+            else
+            {
+                // Replace G64 without parameters with G61.1 (Exact path mode for GRBL)
+                line = "G61.1";
+                qDebug() << "Replaced G64 with G61.1";
+            }
+        }
+
+        if (line.startsWith("M6"))
+        {
+            // Remove unsupported M6 (Tool Change) in GRBL
+            qDebug() << "Removing unsupported command: " << line;
+            continue;
+        }
+
+        // Only write non-empty lines
+        if (!line.isEmpty())
+        {
+            out << line << "\n";
+        }
+    }
+
+    inputFile.close();
+    outputFile.close();
+
+    // Safely replace the original file with the cleaned version
+    inputFile.remove();
+    outputFile.rename(gcodePath);
+
+    qDebug() << "G-code cleaned and made GRBL-compatible!";
+}
+
+
+
+
+void Gcode::generateGCodeSVG(const QString &svgPath, const QString &gcodePath)
+{
+    qDebug() << "Generating G-code from contours...";
+
+    QFile svgFile(svgPath);
+    if (!svgFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open SVG file: " << svgPath;
+        return;
+    }
+
+    QFile gcodeFile(gcodePath);
+    if (!gcodeFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+        qDebug() << "Failed to open G-code file for writing: " << gcodePath;
+        return;
+    }
+
+    QTextStream svgStream(&svgFile);
+    QTextStream gcodeStream(&gcodeFile);
+
+    gcodeStream << "G21\n";
+    gcodeStream << "G90\n";
+    gcodeStream << "M3 S" << spindleSpeed << "\n";
+    gcodeStream << "G0 Z" << -cutDepth << "\n";
+
+    QRegularExpression pathRegex("<path d=\"([^\"]+)\"");
+    QRegularExpression coordRegex("([ML])\\s*(-?\\d+\\.?\\d*)\\s*(-?\\d+\\.?\\d*)");
+
+    QString svgContent = svgStream.readAll();
+    QRegularExpressionMatchIterator pathIter = pathRegex.globalMatch(svgContent);
+
+    while (pathIter.hasNext())
+    {
+        QRegularExpressionMatch pathMatch = pathIter.next();
+        QString pathData = pathMatch.captured(1);
+
+        QRegularExpressionMatchIterator coordIter = coordRegex.globalMatch(pathData);
+        bool firstPoint = true;
+
+        while (coordIter.hasNext())
+        {
+            QRegularExpressionMatch coordMatch = coordIter.next();
+            QString command = coordMatch.captured(1);
+            double x = coordMatch.captured(2).toDouble();
+            double y = coordMatch.captured(3).toDouble();
+
+            if (firstPoint)
+            {
+                gcodeStream << "G0 X" << x << " Y" << y << "\n";
+                gcodeStream << "G1 Z" << cutDepth << " F" << feedRate << "\n";
+                firstPoint = false;
+            }
+            else
+            {
+                gcodeStream << "G1 X" << x << " Y" << y << " F" << feedRate << "\n";
+            }
+        }
+
+        gcodeStream << "G0 Z" << -cutDepth << "\n";
+    }
+
+    gcodeStream << "M5\n";
+    gcodeStream << "G0 Z" << -cutDepth << "\n";
+    gcodeStream << "G0 X0 Y0\n";
+    gcodeStream << "M30\n";
+
+    svgFile.close();
+    gcodeFile.close();
+
+    qDebug() << "G-code successfully generated at: " << gcodePath;
+}
